@@ -1,0 +1,16 @@
+{
+  "name": "real-estate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon api/server.js",
+    "start": "node api/server.js"
+  },
+  "author": "Rohail",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
