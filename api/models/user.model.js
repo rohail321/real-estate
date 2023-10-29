@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
       required: "Password is required",
       minLength: [8, "Password should be atleast 8 character"],
     },
+    avatar: {
+      type: String,
+      default:
+        "https://thumbs.dreamstime.com/z/creative-vector-illustration-default-avatar-profile-placeholder-isolated-background-art-design-grey-photo-blank-template-mo-107388687.jpg?w=768",
+    },
   },
   { timestamps: true }
 );

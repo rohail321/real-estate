@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -7,7 +8,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({});
+  const [error, setError] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -30,11 +31,9 @@ function SignUp() {
     });
     const data = await res.json();
     if (data.success === false) {
-      setError({
-        [Object.keys(data)[1]]: data[Object.keys(data)[1]],
-      });
+      setError(Object.entries(data));
       setLoading(false);
-      retun;
+      return;
     }
     setError({});
     setLoading(false);
@@ -72,6 +71,7 @@ function SignUp() {
         >
           {loading ? "....Loading" : "Sign Up"}
         </button>
+        <OAuth />
       </form>
       <div className='flex gap-2 mt-5'>
         <p>Have a account?</p>
@@ -79,10 +79,8 @@ function SignUp() {
           <span className='text-blue-700 cursor-pointer '>Sign In</span>
         </Link>
       </div>
-      {Object.keys(error) &&
-        Object.values(error).map((err) => (
-          <div className='text-red-400'> {err}</div>
-        ))}
+      {error.length > 0 &&
+        error.map((err) => <div className='text-red-400'> {err[1]}</div>)}
     </div>
   );
 }
