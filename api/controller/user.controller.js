@@ -63,3 +63,14 @@ export const getUserListing = async (req, res, next) => {
     next(401, "Listing not available");
   }
 };
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return next(errorHandler(404, "User does not exist"));
+    const { passwod: pass, ...rest } = user;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};

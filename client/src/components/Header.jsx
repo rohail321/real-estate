@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 function Header() {
   const { currentUser } = useSelector((state) => state.user);
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(window.location);
+    const url = new URLSearchParams(window.location.search);
+    url.set("searchTerm", search);
+    const searchQuery = url.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearch(searchTermFromUrl);
+    }
+  }, [location.search]);
   return (
     <header className='bg-slate-200 shadow-md'>
       <div className='flex flex-row justify-between items-center mx-auto max-w-6xl p-3 '>
@@ -14,13 +32,20 @@ function Header() {
           </h1>
         </Link>
 
-        <form className='bg-slate-100 p-3 rounded-lg flex items-center'>
+        <form
+          onSubmit={handleSubmit}
+          className='bg-slate-100 p-3 rounded-lg flex items-center'
+        >
           <input
             type='text'
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
             placeholder='Search....'
             className='bg-transparent focus:outline-none w-24 sm:w-64 '
           />
-          <FaSearch className='text-slate-600' />
+          <button>
+            <FaSearch className='text-slate-600' />
+          </button>
         </form>
         <ul className='flex gap-4'>
           <Link to='/'>
@@ -28,7 +53,7 @@ function Header() {
               Home
             </li>
           </Link>
-          <Link to='/home'>
+          <Link to='/about'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>
               About
             </li>
