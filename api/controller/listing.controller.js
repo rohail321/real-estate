@@ -90,9 +90,9 @@ export const searchListing = async (req, res, next) => {
     if (type === undefined || type === "false") {
       type = { $in: ["sell", "rent"] };
     }
-    searchTerm ||= "";
-    sort ||= "createdAt";
-    order ||= "desc";
+    searchTerm = searchTerm || "";
+    sort = sort || "createdAt";
+    order = order || "desc";
     const listing = await Listing.find({
       name: { $regex: searchTerm, $options: "i" },
       offer,
